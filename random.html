@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>梗图小组随机图片</title>
+        <body bgcolor="7ac2f4">
+        <script type="text/javascript" src="imagelist.json"></script>
+        <title> </title>
+        <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon16.png">
+        
+    </head>
+    <body>
+        <a href="index.html"><font size="2">返回</font></a>
+        <br><br><script type="text/javascript">
+            var r=Math.floor(Math.random()*images.length)
+            document.write("<img src="+images[r]+">")
+        </script>
+    </body>
+</html>
