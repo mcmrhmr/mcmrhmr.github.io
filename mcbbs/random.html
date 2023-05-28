@@ -2,18 +2,18 @@
     <head>
         <meta charset="UTF-8">
         <title>梗图小组随机图片</title>
-        <body bgcolor="7ac2f4">
+        
         <script type="text/javascript" src="imagelist.json"></script>
         
         
         
     </head>
-    <body>
+    <body bgcolor="7ac2f4">
         <a href="index.html"><font size="2">返回</font></a>
         
         <br><br><script type="text/javascript">
             var r=Math.floor(Math.random()*images.length)
-            document.write("<img src="+images[r]+">")
+            document.write("<img src="+images[r]+" width=100% >")
         </script>
         <br><font size="2">加载较慢，请耐心等待</font>
         <br><br><a href="image/download/all pictures.zip">点击我下载所有梗图</a>
