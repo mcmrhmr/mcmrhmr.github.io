@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>百度搜索</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* 使用100vh填充整个视口高度 */
+        }
+        .search-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 600px; /* 控制搜索栏宽度 */
+            position: fixed; /* 使用固定定位 */
+            top: 0; /* 从顶部开始定位 */
+            left: 50%; /* 从左侧开始定位 */
+            transform: translateX(-50%); /* 水平居中 */
+            transition: height 0.3s ease; /* 添加过渡效果 */
+        }
+        .logo {
+            margin-bottom: 20px; /* 添加一些间距 */
+            max-width: 200px; /* 限制图片宽度 */
+            max-height: 100px; /* 限制图片高度 */
+        }
+        .search-container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 3px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            outline: none;
+            background-color: #ffffff3e;
+        }
+        .search-container button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 20%; /* 设置按钮宽度为搜索栏的一半 */
+            box-sizing: border-box; /* 让按钮宽度包括 padding 和 border */
+        }
+        .search-container button:hover {
+            background-color: #45a049;
+        }
+        .search-container form {
+            width: 100%; /* 让表单充满容器 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #suggestions {
+            background-color: #f9f9f93a;
+            border-radius: 5px;
+            width: 100%;
+            padding-left: 10px;
+            padding-right: 10px;
+            overflow-y: auto; /* 添加垂直滚动条 */
+            max-height: 200px; /* 设置最大高度，超出部分将出现滚动条 */
+        }
+        .suggestion-item {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .suggestion-item:hover {
+            color: #007bff;
+        } 
+    </style>
+</head>
+<body background=2.jpg class="element">
+    <div class="search-container" id="searchContainer">
+        <img class="logo" src="1.png" alt="logo" />
+        <form id="searchForm" action="" method="get">
+            <input type="text" name="wd" placeholder="在百度搜索" id="search_input" autocomplete= "off" oninput="getSuggestions()"/>
+            <div id="suggestions"></div>
+            <button type="submit">搜索</button>
+            <br>
+            
+        </form>
+    </div>
+    
+
+    <script>
+        document.getElementById("searchForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // 阻止默认的提交行为
+            var search_inputValue = document.getElementById("search_input").value;
+            if (search_inputValue.trim() !== "") {
+                window.location.href = "https://www.baidu.com/s?wd=" + encodeURIComponent(search_inputValue);
+            }
+        });
+
+        function getSuggestions() {
+            var query = document.getElementById('search_input').value;
+            var suggestionContainer = document.getElementById('suggestions');
+
+            // Clear previous suggestions
+            suggestionContainer.innerHTML = '';
+
+            // Create a new script element
+            var script = document.createElement('script');
+            script.src = 'https://suggestion.baidu.com/su?wd=' + query + '&cb=processSuggestions';
+
+            // Append the script element to the document body
+            document.body.appendChild(script);
+        }
+
+        // This function will be called when the JSONP response is received
+        function processSuggestions(data) {
+            var suggestionContainer = document.getElementById('suggestions');
+            data.s.forEach(function(suggestion) {
+                var suggestionLink = document.createElement('a');
+                suggestionLink.href = 'https://www.baidu.com/s?wd=' + encodeURIComponent(suggestion);
+                suggestionLink.textContent = suggestion;
+                suggestionLink.className = 'suggestion-item'; // Apply CSS class
+                suggestionLink.target = '_blank'; // Open link in a new tab
+                suggestionContainer.appendChild(suggestionLink);
+                suggestionContainer.appendChild(document.createElement('br')); // Add line break
+            });
+            // 调整容器的高度，以保持布局稳定
+            var searchContainer = document.getElementById('searchContainer');
+            searchContainer.style.height = suggestionContainer.offsetHeight + 'px';
+        }
+    </script>
+</body>
+</html>
